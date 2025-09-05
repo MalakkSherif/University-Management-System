@@ -1,0 +1,20 @@
+{
+  "name": "university-managment-system",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MalakkSherif/University-Management-System.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MalakkSherif/University-Management-System/issues"
+  },
+  "homepage": "https://github.com/MalakkSherif/University-Management-System#readme"
+}
