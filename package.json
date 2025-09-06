@@ -16,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/MalakkSherif/University-Management-System/issues"
   },
-  "homepage": "https://github.com/MalakkSherif/University-Management-System#readme"
+  "homepage": "https://github.com/MalakkSherif/University-Management-System#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "mongodb": "^6.19.0",
+    "mongoose": "^8.18.0",
+    "validator": "^13.15.15"
+  }
 }
