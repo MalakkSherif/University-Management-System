@@ -4,7 +4,8 @@ const studentController = require('../controllers/student.controller')
 const router = express.Router()
 
 router.route('/')
-        .get(studentController.getAllUsers)
+        .get(studentController.getAllStudents)
+        .post(studentController.addStudent)
 
 
 module.exports = router

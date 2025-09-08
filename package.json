@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/MalakkSherif/University-Management-System#readme",
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "express": "^5.1.0",
     "mongodb": "^6.19.0",
     "mongoose": "^8.18.0",

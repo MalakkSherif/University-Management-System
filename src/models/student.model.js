@@ -3,21 +3,28 @@ const validator = require('validator')
 
 const studentSchema = mongoose.Schema({
     studentId:{
-        type: Number,
-        required: true,
-        min: [8,'Invalid id length, it should be 8 numbers'],
-        unique: true,
-    },
-    password:{
         type: String,
-        min: [3, 'Name can\'t be less than 3 characters']
+        required: true,
+        validate:{
+            validator: (v)=> /^\d{8}$/.test(v),
+            message: 'Student id must be 8 digits'
+        },
+        unique: true,
     },
     name:{
         type: String,
-        min: [3, 'Name can\'t be less than 3 characters']
+        minLength: [3, 'Name can\'t be less than 3 characters']
     },
     phone:{
-        type: Number,
+        type: String,
+        validate: {
+            validator: (v)=> /^\d{11}$/.test(v),
+            message: 'Phone number must be 11 digits'
+        },
+    },
+    password:{
+        type: String,
+        required: true,
         validate: {
         validator: function (pass) {
         return validator.isStrongPassword(pass, {
@@ -29,15 +36,15 @@ const studentSchema = mongoose.Schema({
         });
         },
         message:
-        "Password must be at least 8 chars and include upper, lower, number, and special char",
-    },
+        "Password must be at least 8 chars and include upper, lower, number, and special char"},
     },
     // address:{
     //     type: String
     // },
     email:{
         type: String,
-        validator:[validator.isEmail, 'Invalid email format']
+        validate:[validator.isEmail, 'Invalid email format'],
+        unique: true,
     }
     
 })
