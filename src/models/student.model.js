@@ -9,7 +9,7 @@ const studentSchema = mongoose.Schema({
             validator: (v)=> /^\d{8}$/.test(v),
             message: 'Student id must be 8 digits'
         },
-        unique: [true, 'This student id already exists'],
+        unique: true,
     },
     name:{
         type: String,
@@ -33,7 +33,7 @@ const studentSchema = mongoose.Schema({
         type: String,
         required: [true, 'Email is required'],
         validate:[validator.isEmail, 'Invalid email format'],
-        unique: [true, 'This email already exists'],
+        unique: true,
     }
     
 })
