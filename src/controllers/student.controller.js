@@ -1,5 +1,6 @@
 const student = require('../models/student.model')
 const bcrypt = require('bcryptjs')
+const validator = require('validator')
 
 
 const getAllStudents = async (req,res)=>{
@@ -7,7 +8,7 @@ const getAllStudents = async (req,res)=>{
         let students = await student.find()
         res.status(200).json(students)
     }catch(err){
-        res.status(500).json({message: 'Error from server'})
+        res.status(500).json({message: 'Error from server', err})
     }
 }
 
@@ -20,6 +21,15 @@ const addStudent = async (req,res)=>{
         }
         if(await student.findOne({email:email})){
             return res.status(400).json({Error: 'This email already exists'})
+        }
+        if(!validator.isStrongPassword(password,{
+            minLength: 8,
+            minLowercase: 1,
+            minUppercase: 1,
+            minNumbers: 1,
+            minSymbols: 1,
+        })){
+            return res.status(400).json({Error: 'Password must be at least 8 chars and include upper, lower, number, and special characters'})
         }
 
         let hashedPassword = bcrypt.hashSync(password,10)
@@ -42,7 +52,7 @@ const addStudent = async (req,res)=>{
             }
             return res.status(400).json({errors})
         }
-        res.status(500).json({message: 'Error from server'})
+        res.status(500).json({message: 'Error from server', err})
     }
 }
 
