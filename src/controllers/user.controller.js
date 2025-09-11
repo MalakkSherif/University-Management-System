@@ -1,6 +1,61 @@
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user.model');
+const Student = require("../models/student.model");
+const Teacher = require("../models/teacher.model");
+
+/*
+async function register(req, res) {
+    try {
+        const { email, password, role, ...detailedData } = req.body;
+
+        if (req.user.role !== "admin") {
+            return res.status(403).json({
+                status: "ERROR",
+                message: "Only admins can register new users"
+            });
+        }
+
+        const userFromDB = await User.findOne({ email });
+        if (userFromDB) {
+            return res.status(400).json({
+                status: "ERROR",
+                message: "Email already in use"
+            });
+        }
+
+
+        const user = await User.create({ email, password, role });
+
+        if (role === "student") {
+           await addStudent(user._id, detailedData);
+        }
+
+        if (role === "teacher") {
+           await addTeacher(user._id, detailedData);
+        }
+
+        res.status(201).json({
+            status: "OK",
+            message:
+                "User registered successfully. Please ask the user to login to continue.",
+            user: {
+                id: user._id,
+                email: user.email,
+                role: user.role
+            },
+            redirect: "/login"
+        });
+
+    } catch (err) {
+        res.status(500).json({
+            status: "ERROR",
+            message: err.message
+        });
+    }
+}
+
+*/
 
 
 async function login(req,res) {
@@ -64,5 +119,6 @@ async function changePassword(req,res) {
 
 module.exports = {
     login,
-    changePassword
+    changePassword,
+    register
 }
