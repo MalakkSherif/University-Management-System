@@ -55,7 +55,7 @@ const getAllCourses=async(req,res)=>{
 const getCourseById=async(req,res)=>{
     try {
         let id=req.params.courseId;
-        let course=await Course.findById(id)
+        let course=await Course.findById(id,{'__v':false})
         if (!course)return res.status(404).json({error:'Course not found'})
         res.status(200).json(course)
     } catch (err) {
@@ -66,8 +66,9 @@ const getCourseById=async(req,res)=>{
 const addStudentToCourse=async(req,res)=>{
     try {
         let id=req.params.courseId;
-        let studentId=req.body.studentId;
-        let course=await Course.findById(id).populate('students')
+        let studentId=req.params.studentId;
+        console.log(studentId)
+        let course=await Course.findById(id)
         if (!course)return res.status(404).json({error:'Course not found'})
         course.students.push(studentId)
         await course.save()
