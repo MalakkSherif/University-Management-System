@@ -8,7 +8,7 @@ const authRouter = express.Router();
 
 // authRouter.post("/register", authMiddleware, restrictTo("admin"), register);
 
-authRouter.post("/login", login);
-authRouter.post("/change-password", authMiddleware, changePassword);
+authRouter.post("/login", loginValidation, validate, login);
+authRouter.post("/change-password", authMiddleware, changePasswordValidation, validate, changePassword);
 
 module.exports = authRouter;
