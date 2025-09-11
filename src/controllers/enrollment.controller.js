@@ -1,12 +1,13 @@
 // controllers/enrollment.controller.js
-const Enrollment = require('../models/Enrollment');
+const Enrollment = require('../models/enrollment.model');
+
 
 
 exports.getAllEnrollments = async (req, res) => {
   try {
     const enrollments = await Enrollment.find()
-      .populate('student', 'name email') 
-      .populate('course', 'title description'); 
+      .populate('student', 'name email')
+      .populate('course', 'title description');
 
     res.status(200).json({ success: true, data: enrollments });
   } catch (error) {
@@ -36,7 +37,7 @@ exports.addEnrollment = async (req, res) => {
   try {
     const { student, course } = req.body;
 
-    
+
     const exists = await Enrollment.findOne({ student, course });
     if (exists) {
       return res.status(400).json({ success: false, message: 'Student already enrolled in this course' });

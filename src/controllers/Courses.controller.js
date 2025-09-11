@@ -65,16 +65,12 @@ const getCourseById=async(req,res)=>{
 }
 const addStudentToCourse=async(req,res)=>{
     try {
-        let id=req.params.courseId;
-        let studentId=req.params.studentId;
-        console.log(studentId)
-        let course=await Course.findById(id)
-        if (!course)return res.status(404).json({error:'Course not found'})
-        course.students.push(studentId)
-        await course.save()
+        const studentsInCourse = await Course.find()
+              .populate('Enrollment', 'student course')
+       
         res.status(200).json({message:'Student added successfully'})
     } catch (err) {
-        res.status(500).json({message:'Error from Server',error:err})
+        res.status(500).json({message:'Error from Server',error: err})
     }
 }
 module.exports={

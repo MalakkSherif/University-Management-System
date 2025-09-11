@@ -18,7 +18,7 @@ const mongoose=require("mongoose")
     },
     students:[{
          type:mongoose.Schema.Types.ObjectId,
-         ref:'Student'
+         ref:'Enrollment'
     }]
 
  })
