@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/user.model');
 const Student = require("../models/student.model");
-const Teacher = require("../models/teacher.model");
+//const Teacher = require("../models/teacher.model");
 
 /*
 async function register(req, res) {
@@ -120,5 +120,5 @@ async function changePassword(req,res) {
 module.exports = {
     login,
     changePassword,
-    register
+    //register
 }
