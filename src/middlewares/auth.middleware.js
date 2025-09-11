@@ -36,9 +36,9 @@ function authMiddleware(req, res, next) {
     }
 };
 
-function restrictTo (role){
+function restrictTo(...roles) {
     return (req, res, next) => {
-        if (req.user.role !== role) {
+        if (!roles.includes(req.user.role)) {  
             return res.status(403).json({
                 status: "ERROR",
                 errorMessage: `You don't have permission to perform this action`

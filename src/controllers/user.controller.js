@@ -38,7 +38,7 @@ async function register(req, res) {
         res.status(201).json({
             status: "OK",
             message:
-                "User registered successfully. Please ask the user to login to continue.",
+                "User registered successfully. Please login to continue.",
             user: {
                 id: user._id,
                 email: user.email,
