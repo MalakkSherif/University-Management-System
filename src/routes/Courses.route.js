@@ -12,7 +12,7 @@ router.route('/:courseId')
                 .get(courseController.getCourseById)
                 .patch(Validation,courseController.updateCourse)
                 .delete(courseController.deleteCourse)
-/
+
 router.route('/:courseId/:studentId').post(courseController.addStudentToCourse)
 
 module.exports=router   

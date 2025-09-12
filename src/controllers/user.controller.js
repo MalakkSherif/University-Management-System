@@ -4,7 +4,7 @@ const User = require('../models/user.model');
 const Student = require("../models/student.model");
 //const Teacher = require("../models/teacher.model");
 
-/*
+
 async function register(req, res) {
     try {
         const { email, password, role, ...detailedData } = req.body;
@@ -28,12 +28,22 @@ async function register(req, res) {
         const user = await User.create({ email, password, role });
 
         if (role === "student") {
-           await addStudent(user._id, detailedData);
+            const existingStudentId = await Student.findOne({ studentId: detailedData.studentId });
+
+             if (existingStudentId) {
+                return res.status(400).json({ message: "Student ID already exists" });
+            }
+
+            await Student.create({
+                ...detailedData,
+                studentId : detailedData.studentId,            
+                user : user._id      
+            });
         }
 
-        if (role === "teacher") {
-           await addTeacher(user._id, detailedData);
-        }
+        // if (role === "teacher") {
+        //    await addTeacher(user._id, detailedData);
+        // }
 
         res.status(201).json({
             status: "OK",
@@ -55,7 +65,6 @@ async function register(req, res) {
     }
 }
 
-*/
 
 
 async function login(req,res) {
@@ -120,5 +129,5 @@ async function changePassword(req,res) {
 module.exports = {
     login,
     changePassword,
-    //register
+    register
 }
