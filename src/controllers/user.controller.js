@@ -16,15 +16,6 @@ async function register(req, res) {
             });
         }
 
-        const userFromDB = await User.findOne({ email });
-        if (userFromDB) {
-            return res.status(400).json({
-                status: "ERROR",
-                message: "Email already in use"
-            });
-        }
-
-
         const user = await User.create({ email, password, role });
 
         if (role === "student") {

@@ -1,5 +1,6 @@
 const express = require('express')
 const dotenv = require('dotenv');
+const bcrypt = require('bcrypt');
 
 const studentRouter = require('./routes/student.route.js')
 const connection = require('./config/dbConnection.js')

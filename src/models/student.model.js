@@ -24,14 +24,14 @@ const studentSchema = mongoose.Schema({
     },
     password:{
         type: String,
-        required: [true, 'Password is required'],
+        // required: [true, 'Password is required'],
     },
     // address:{
     //     type: String
     // },
     email:{
         type: String,
-        required: [true, 'Email is required'],
+        //required: [true, 'Email is required'],
         validate:[validator.isEmail, 'Invalid email format'],
         unique: true,
     }
