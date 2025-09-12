@@ -1,4 +1,6 @@
 const express = require('express')
+const dotenv = require('dotenv');
+
 const studentRouter = require('./routes/student.route.js')
 const connection = require('./config/dbConnection.js')
 const courseRoute=require('./routes/Courses.route')
@@ -6,6 +8,7 @@ const enrollmentRoutes = require('./routes/enrollment.route');
 const authRouter = require('./routes/auth.routes.js');
 const path=require('node:path')
 
+dotenv.config();
 
 const app = express();
 
