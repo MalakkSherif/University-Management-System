@@ -12,6 +12,6 @@ router.route('/:courseId')
                 .patch(authMiddleware,restrictTo('Admin'),Validation,courseController.updateCourse)
                 .delete(authMiddleware,restrictTo('Admin'),courseController.deleteCourse)
 
-router.route('/:courseId/:studentId').post(courseController.addStudentToCourse)
+//router.route('/:courseId/:studentId').post(courseController.addStudentToCourse)
 
 module.exports=router   
