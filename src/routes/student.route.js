@@ -1,18 +1,18 @@
 const express = require('express')
 const studentController = require('../controllers/student.controller')
-
+const {authMiddleware, restrictTo} = require('../middlewares/auth.middleware.js')
 const router = express.Router()
 
 router.route('/')
-        .get(studentController.getAllStudents)
-        .post(studentController.addStudent)
+        .get(authMiddleware,restrictTo('Admin'),studentController.getAllStudents)
+        .post(authMiddleware,restrictTo('Admin'),studentController.addStudent)
 
 router.route('/:studentId')
-        .patch(studentController.updateStudent)
-        .delete(studentController.deleteStudent)
+        .patch(authMiddleware,restrictTo('Admin'),studentController.updateStudent)
+        .delete(authMiddleware,restrictTo('Admin'),studentController.deleteStudent)
 
 router.route('/searchStudent')
-        .get(studentController.searchStudent)
+        .get(authMiddleware,restrictTo('Admin'),studentController.searchStudent)
 
 
 
