@@ -14,7 +14,8 @@ const getAllStudents = async (req,res)=>{
 
 const addStudent = async (req,res)=>{
     try{
-        let {studentId,name,phone,password,email} = req.body
+        //removed password from here
+        let {studentId,name,phone,email,year,department} = req.body
 
         if(await student.findOne({studentId:studentId})){
             return res.status(400).json({Error: 'This student id already exists'})
@@ -22,24 +23,26 @@ const addStudent = async (req,res)=>{
         if(await student.findOne({email:email})){
             return res.status(400).json({Error: 'This email already exists'})
         }
-        if(!validator.isStrongPassword(password,{
-            minLength: 8,
-            minLowercase: 1,
-            minUppercase: 1,
-            minNumbers: 1,
-            minSymbols: 1,
-        })){
-            return res.status(400).json({Error: 'Password must be at least 8 chars and include upper, lower, number, and special characters'})
-        }
+        // if(!validator.isStrongPassword(password,{
+        //     minLength: 8,
+        //     minLowercase: 1,
+        //     minUppercase: 1,
+        //     minNumbers: 1,
+        //     minSymbols: 1,
+        // })){
+        //     return res.status(400).json({Error: 'Password must be at least 8 chars and include upper, lower, number, and special characters'})
+        // }
 
-        let hashedPassword = bcrypt.hashSync(password,10)
+        //let hashedPassword = bcrypt.hashSync(password,10)
 
         let newStudent = new student({
             studentId,
             name,
             phone,
-            password: hashedPassword,
-            email
+            // password: hashedPassword,
+            email,
+            year,
+            department
         })
         await newStudent.save()
         res.status(201).json({message: 'Student added successfully'})
