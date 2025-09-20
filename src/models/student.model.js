@@ -5,7 +5,7 @@ const validator = require('validator')
 const studentSchema = mongoose.Schema({
     studentId:{
         type: String,
-        required: [true, 'Student Id is required'],
+        required: [true, 'Student id is required'],
         validate:{
             validator: (v)=> /^\d{8}$/.test(v),
             message: 'Student id must be 8 digits'
@@ -14,11 +14,12 @@ const studentSchema = mongoose.Schema({
     },
     name:{
         type: String,
-        minLength: [3, 'Name can\'t be less than 3 characters']
+        required: [true, 'Name is required'],
+        minLength: [10, 'Name can\'t be less than 10 characters']
     },
     email:{
         type: String,
-        //required: [true, 'Email is required'],
+        required: [true, 'Email is required'],
         validate:[validator.isEmail, 'Invalid email format'],
         unique: true,
     },

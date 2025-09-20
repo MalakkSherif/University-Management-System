@@ -9,15 +9,17 @@ router.route('/')
         .post(//authMiddleware,restrictTo('Admin'),
         studentController.addStudent)
 
+router.route('/searchStudent')
+        .get(//authMiddleware,restrictTo('Admin'),
+                studentController.searchStudent)        
+
 router.route('/:studentId')
+        .get(//authMiddleware,restrictTo('Admin'),
+                studentController.getStudentById)
         .patch(//authMiddleware,restrictTo('Admin'),
                 studentController.updateStudent)
         .delete(//authMiddleware,restrictTo('Admin'),
                 studentController.deleteStudent)
-
-router.route('/searchStudent')
-        .get(//authMiddleware,restrictTo('Admin'),
-                studentController.searchStudent)
 
 
 

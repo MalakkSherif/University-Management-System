@@ -3,25 +3,35 @@ const bcrypt = require('bcryptjs')
 const validator = require('validator')
 
 
-const getAllStudents = async (req,res)=>{
-    try{
-        let students = await student.find({},{'_id': false,'__v': false, 'password': false})
+const getAllStudents = async (req, res) => {
+    try {
+        let students = await student.find({}, { '_id': false, '__v': false })
         res.status(200).json(students)
-    }catch(err){
-        res.status(500).json({message: 'Error from server', err})
+    } catch (err) {
+        res.status(500).json({ message: 'Error from server', err })
     }
 }
 
-const addStudent = async (req,res)=>{
-    try{
-        //removed password from here
-        let {studentId,name,phone,email,year,department} = req.body
+const getStudentById = async (req, res) => {
+    try {
+        let id = req.params.studentId
+        let foundStudent = await student.findOne({ 'studentId': id }, { '_id': false, '__v': false })
+        res.status(200).json(foundStudent)
+    } catch (err) {
+        res.status(500).json({ message: 'Error from server', err })
+    }
+}
 
-        if(await student.findOne({studentId:studentId})){
-            return res.status(400).json({Error: 'This student id already exists'})
+const addStudent = async (req, res) => {
+    try {
+        //removed password from here
+        let { studentId, name, phone, email, year, department } = req.body
+
+        if (await student.findOne({ studentId: studentId })) {
+            return res.status(400).json({ Error: 'This student id already exists' })
         }
-        if(await student.findOne({email:email})){
-            return res.status(400).json({Error: 'This email already exists'})
+        if (await student.findOne({ email: email })) {
+            return res.status(400).json({ Error: 'This email already exists' })
         }
         // if(!validator.isStrongPassword(password,{
         //     minLength: 8,
@@ -45,87 +55,92 @@ const addStudent = async (req,res)=>{
             department
         })
         await newStudent.save()
-        res.status(201).json({message: 'Student added successfully'})
+        res.status(201).json({ message: 'Student added successfully' })
 
-    }catch (err) {
-        if(err.name === 'ValidationError'){
+    } catch (err) {
+        if (err.name === 'ValidationError') {
             let errors = {};
-            for(let field in err.errors){
+            for (let field in err.errors) {
                 errors[field] = err.errors[field].message
             }
-            return res.status(400).json({errors})
+            return res.status(400).json({ errors })
         }
-        res.status(500).json({message: 'Error from server', err})
+        res.status(500).json({ message: 'Error from server', err })
     }
 }
 
-const searchStudent = async (req,res)=>{
-    try{
-        let {studentId,name} = req.query
-        let filter ={}
-        if(studentId){
-            filter.studentId = {$regex: '^'+studentId}
+const searchStudent = async (req, res) => {
+    try {
+        let { studentId, name } = req.query
+        let filter = {}
+        if (studentId || name) {
+            filter.$or = []
+            if (studentId) {
+                filter.$or.push({ studentId: { $regex: '^' + studentId.trim() } })
+            }
+            if (name) {
+                filter.$or.push({ name: { $regex: '^' + name.trim(), $options: 'i' } })
+            }
         }
-        if(name){
-            filter.name = {$regex: '^'+name, $options: 'i'}
-        }
-        const students = await student.find(filter,{'_id': false,'__v': false, 'password': false})
+        const students = await student.find(filter, { '_id': false, '__v': false })
+        
 
-        if(students.length === 0){
-            return res.status(404).json({message: 'No students found'})
+        if (students.length === 0) {
+            return res.status(404).json({ message: 'No students found' })
         }
 
         res.status(200).json(students)
 
-    }catch(err){
-        res.status(500).json({message: 'Error from server', err})
+    } catch (err) {
+        res.status(500).json({ message: 'Error from server', err })
     }
 }
 
-const updateStudent = async (req,res)=>{
-    try{
+const updateStudent = async (req, res) => {
+    try {
         let id = req.params.studentId
 
-        let existingStudent = await student.findOne({studentId: id})
-        if(!existingStudent){
-            return res.status(404).json({message: 'Student not found'})
+        let existingStudent = await student.findOne({ studentId: id })
+        if (!existingStudent) {
+            return res.status(404).json({ message: 'Student not found' })
         }
 
-        let students = await student.find({studentId: {$ne: id}})
-        if(students.some(s => s.email === req.body.email)){
-            return res.status(400).json({message: 'This email already exists'})
+        let students = await student.find({ studentId: { $ne: id } })
+        if (students.some(s => s.email === req.body.email)) {
+            return res.status(400).json({ message: 'This email already exists' })
         }
 
-        let updatedStudent = await student.findOneAndUpdate({studentId: id},{$set: {...req.body}})
-        
-        res.status(200).json({message: 'Student updated successfully'})
+        let updatedStudent = await student.findOneAndUpdate({ studentId: id }, { $set: { ...req.body } })
 
-    }catch(err){
-        res.status(500).json({message: 'Error from server', err})
+        res.status(200).json({ message: 'Student updated successfully' })
+
+    } catch (err) {
+        res.status(500).json({ message: 'Error from server', err })
     }
 }
 
-const deleteStudent = async (req,res)=>{
-    try{
+const deleteStudent = async (req, res) => {
+    try {
         let id = req.params.studentId
 
-        let existingStudent = await student.findOne({studentId: id})
-        if(!existingStudent){
-            return res.status(404).json({message: 'Student not found'})
+        let existingStudent = await student.findOne({ studentId: id })
+        if (!existingStudent) {
+            return res.status(404).json({ message: 'Student not found' })
         }
 
-        let deletedStudnet = await student.findOneAndDelete({studentId: id})
+        let deletedStudent = await student.findOneAndDelete({ studentId: id })
 
-        res.status(200).json({message: 'Student deleted successfully'})
+        res.status(200).json({ message: 'Student deleted successfully' })
 
-    }catch(err){
-        res.status(500).json({message: 'Error from server', err})
+    } catch (err) {
+        res.status(500).json({ message: 'Error from server', err })
     }
 }
 
 
 module.exports = {
     getAllStudents,
+    getStudentById,
     addStudent,
     searchStudent,
     updateStudent,

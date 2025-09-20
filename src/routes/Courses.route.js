@@ -5,12 +5,12 @@ const {authMiddleware , restrictTo} =require('../middlewares/auth.middleware.js'
 
 let router=express.Router()
 router.route('/').get(courseController.getAllCourses)
-                 .post(authMiddleware,restrictTo('Admin'),Validation,courseController.createCourse)
+                 .post(Validation,courseController.createCourse)
 
 router.route('/:courseId')
                 .get(courseController.getCourseById)
-                .patch(authMiddleware,restrictTo('Admin'),Validation,courseController.updateCourse)
-                .delete(authMiddleware,restrictTo('Admin'),courseController.deleteCourse)
+                .patch(Validation,courseController.updateCourse)
+                .delete(courseController.deleteCourse)
 
 //router.route('/:courseId/:studentId').post(courseController.addStudentToCourse)
 
