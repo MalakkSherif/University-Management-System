@@ -6,8 +6,8 @@ const createCourse=async(req,res)=>{
         let errors=validationResult(req)
         console.log(errors)
         if (!errors.isEmpty())return res.status(400).json({message:'Bad Request',error:errors.array()})
-        const{title,department,staffId}=req.body
-        let newCourse=await Course.create({title,department,staffId})
+        const{title,department,instructor}=req.body
+        let newCourse=await Course.create({title,department,instructor})
 
         res.status(201).json({message:'Created successfully'})
 
@@ -46,7 +46,7 @@ const deleteCourse=async(req,res)=>{
 
 const getAllCourses=async(req,res)=>{
     try {
-        let allCourses=await Course.find({},{'__v':false})
+        let allCourses=await Course.find({},{ '__v': false})
         res.status(200).json(allCourses)
     } catch (err) {
         res.status(500).json({message:'Error from Server',error:err})
@@ -55,14 +55,16 @@ const getAllCourses=async(req,res)=>{
 const getCourseById=async(req,res)=>{
     try {
         let id=req.params.courseId;
-        let course=await Course.findById(id,{'__v':false})
+      let course=await Course.findById(id,{ '__v': false})
         if (!course)return res.status(404).json({error:'Course not found'})
         res.status(200).json(course)
     } catch (err) {
         res.status(500).json({message:'Error from Server',error:err})
     }
-
 }
+
+
+
 
 module.exports={
     createCourse,
@@ -70,4 +72,5 @@ module.exports={
     deleteCourse,
     getAllCourses,
     getCourseById,
+     
 }

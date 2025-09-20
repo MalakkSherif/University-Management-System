@@ -9,12 +9,18 @@ const enrollmentRoutes = require('./routes/enrollment.route');
 const authRouter = require('./routes/auth.routes.js');
 const path=require('node:path')
 
+const cors=require('cors')
+
+
 dotenv.config();
 
 const app = express();
 
 app.use(express.json());
 
+
+app.use(cors())
+app.use(express.json())
 
 app.use('/api/auth', authRouter);
 app.use('/api/students',studentRouter)
@@ -23,17 +29,8 @@ app.use('/api/enrollments', enrollmentRoutes);
 
 connection()
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 8080;
 
 app.listen(port , ()=>{
     console.log(`Listening on port ${port}...`)
 })
-
-
-
-
-
-
-
-
-
