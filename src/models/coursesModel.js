@@ -9,18 +9,15 @@ const mongoose=require("mongoose")
     department:{
         type:String,
         required:true,
+        enum:["C.S","Artificial Intelligence","Data Science","Information Systems IS"],
         minlength:3
 
     },
-    staffId:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'Staff'
+    instructor:{
+       type:String,
+       required:true,
+       minlength:3
     },
-    students:[{
-         type:mongoose.Schema.Types.ObjectId,
-         ref:'Enrollment'
-    }]
-
  })
  const CourseModel=mongoose.model('Course',courseSchema)
  module.exports=CourseModel
