@@ -9,7 +9,7 @@ const mongoose=require("mongoose")
     department:{
         type:String,
         required:true,
-        enum:["C.S","Artificial Intelligence","Data Science","Information Systems IS"],
+        enum:["Computer Science","Information systems","Artificial Intelligence"],
         minlength:3
 
     },

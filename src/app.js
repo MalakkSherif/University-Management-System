@@ -10,8 +10,6 @@ const authRouter = require('./routes/auth.routes.js');
 const path=require('node:path')
 const cors = require('cors');
 
-const cors=require('cors')
-
 
 dotenv.config();
 
@@ -20,10 +18,6 @@ const app = express();
 app.use(express.json());
 
 app.use(cors());
-
-
-app.use(cors())
-app.use(express.json())
 
 app.use('/api/auth', authRouter);
 app.use('/api/students',studentRouter)
